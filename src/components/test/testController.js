@@ -13,14 +13,26 @@ export default function() {
       });
     })
     .post((req, res) => {
-      let test = {
-        text: req.body.text
-      };
+      var test = req.body;
       let promise = testService.saveTest(test);
       promise.then((test) => {
         res.json(test);
       });
+  });
+
+  testController.route('/:id')
+  .get((req, res) => {
+    let query = testService.getTest(req.params.id);
+    let promise = query.exec();
+    promise.then((err, test) => {
+      if (err) {
+        res.send(err);
+      } else {
+        res.json(test);
+      }
+
     });
+  });
 
   return testController;
 }
