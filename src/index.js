@@ -1,10 +1,12 @@
 import express from 'express';
+import cors from 'cors';
 import bodyParser from 'body-parser';
 import TelegramBot from 'node-telegram-bot-api';
 
 import {testController} from './components';
 
 var app = express();
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 var port = 9000;
