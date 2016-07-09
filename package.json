@@ -19,8 +19,7 @@
   "homepage": "https://github.com/Geekymate/GeekymateWebApi#readme",
   "dependencies": {
     "body-parser": "^1.15.2",
-    "express": "^4.14.0",
-    "node-telegram-bot-api": "^0.23.3"
+    "express": "^4.14.0"
   },
   "devDependencies": {
     "babel-core": "^6.10.4",
