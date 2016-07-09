@@ -9,32 +9,31 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 var port = 9000;
 
-app.get('/api/help', function (req, res) {
+app.get('/api/help', (req, res) => {
   res.json({"help": "help"})
 });
 
-app.get('/bot/polling', function (req, res) {
+app.get('/bot/polling', (req, res) => {
   var token = '230686792:AAF42GwXm2ntPWcn1IYKemkt_mBf2QsCQTU';
 	// Setup polling way
-	var request = require('request');
 	var options = {
 	  polling: true
 	};
 	var bot = new TelegramBot(token, options);
-	bot.getMe().then(function (me) {
+	bot.getMe().then((me) => {
 	  console.log('Hi my name is %s!', me.username);
 	});
-	bot.onText(/\/msg_info/, function (msg) {
+	bot.onText(/\/msg_info/, (msg) => {
 	  console.log(msg);
 	  bot.sendMessage(msg.chat.id, JSON.stringify(msg));
 	});
-	bot.on('message', function (msg) {
-	  bot.sendMessage(msg.chat.id, 'Что значит ' + msg.text + '?');
+	bot.on('message', (msg) => {
+	  bot.sendMessage(msg.chat.id, 'Что значит тыкать' + msg.text + '?');
 	});
 });
 
 app.use('/api/tests', testController());
 
-app.listen(port, function () {
+app.listen(port, () => {
   console.log('App listening on port ' + port);
 });
