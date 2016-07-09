@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, {Schema} from 'mongoose';
 import config from '../../config';
 
 export default class TestService {
@@ -6,11 +6,20 @@ export default class TestService {
     var connectString = 'mongodb://' + config.host + ':' + config.port + '/Geekymate';
     mongoose.connect(connectString);
 
-    var schema = mongoose.Schema({
-      text: {
+    var schema = Schema({
+      title: {
         type: String,
         required: true
       },
+      questions: [{
+        title: String,
+        answers: Schema.Types.Mixed,
+        correct_answer: Number,
+        modified: {
+          type: Date,
+          default: Date.now
+        }
+      }],
       modified: {
         type: Date,
         default: Date.now
@@ -49,15 +58,24 @@ export default class TestService {
     })
   }
 
+  getTest(id) {
+    return this.Model.findById(id, (err, result) => {
+      if (err) {
+        return console.error(err);
+      }
+      return result;
+    })
+  }
+
   saveTest(test) {
-    console.log(test);
     var model = new this.Model({
-      text: test.text
+      title: test.title,
+      questions: test.questions
     });
 
     return model.save((err) => {
       if (err) {
-        return console.error(err);
+        return err;
       }
       return model;
     })
