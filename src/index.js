@@ -1,6 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import nodeTelegramBotApi from 'node-telegram-bot-api';
+import TelegramBot from 'node-telegram-bot-api';
 
 import {testController} from './components';
 
@@ -14,7 +14,6 @@ app.get('/api/help', function (req, res) {
 });
 
 app.get('/bot/polling', function (req, res) {
-  var TelegramBot = require('node-telegram-bot-api');
   var token = '230686792:AAF42GwXm2ntPWcn1IYKemkt_mBf2QsCQTU';
 	// Setup polling way
 	var request = require('request');
