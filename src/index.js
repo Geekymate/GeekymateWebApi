@@ -1,15 +1,20 @@
 import express from 'express';
-import cors from 'cors';
 import bodyParser from 'body-parser';
 import TelegramBot from 'node-telegram-bot-api';
 
 import {testController} from './components';
 
 var app = express();
-app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 var port = 9000;
+
+app.use(function(req, res, next) {
+  console.log('Тут был');
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 app.get('/api/help', (req, res) => {
   res.json({"help": "help"})
