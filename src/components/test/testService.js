@@ -1,10 +1,8 @@
 import mongoose, {Schema} from 'mongoose';
-import config from '../../config';
+import connectString from '../../db';
 
 export default class TestService {
   constructor() {
-    var connectString = 'mongodb://' + config.host + ':' + config.port + '/Geekymate';
-    mongoose.connect(connectString);
 
     var schema = Schema({
       title: {
@@ -27,11 +25,10 @@ export default class TestService {
     });
 
     this.Model = mongoose.model('Tests', schema);
-
-    this.Connect();
   }
 
-  Connect() {
+  connect() {
+    mongoose.connect(connectString);
     var db = mongoose.connection;
 
     db.once('open', () => {
@@ -46,38 +43,59 @@ export default class TestService {
       console.log('connection error:' + err.message);
     });
 
-    this.db;
+    this.db = db;
+  }
+
+  close() {
+    this.db.close();
+    return;
   }
 
   getTests() {
-    return this.Model.find((err, result) => {
+    console.log('getTests()');
+    this.connect();
+    return this.Model.find((err, data) => {
+      var result;
       if (err) {
-        return console.error(err);
+        result = err;
+      } else {
+        result = data;
       }
+      // this.close();
       return result;
-    })
+    });
   }
 
   getTest(id) {
-    return this.Model.findById(id, (err, result) => {
+    this.connect();
+    return this.Model.findById(id, (err, data) => {
+      var result;
       if (err) {
-        return console.error(err);
+        result = err;
+      } else {
+        result = data;
       }
+      // this.close();
       return result;
-    })
+    });
   }
 
   saveTest(test) {
+    this.connect();
     var model = new this.Model({
       title: test.title,
       questions: test.questions
     });
 
     return model.save((err) => {
+      var result;
       if (err) {
-        return err;
+        result = err;
+      } else {
+        result = model;
       }
-      return model;
-    })
+      // this.close();
+      return result;
+    });
   }
 };
