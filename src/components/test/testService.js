@@ -24,7 +24,11 @@ export default class TestService {
       }
     });
 
-    this.Model = mongoose.model('Tests', schema);
+    if (mongoose.models.Test) {
+      this.Model = mongoose.model('Test');
+    } else {
+      this.Model = mongoose.model('Test', schema);
+    }
   }
 
   connect() {
@@ -52,7 +56,6 @@ export default class TestService {
   }
 
   getTests() {
-    console.log('getTests()');
     this.connect();
     return this.Model.find((err, data) => {
       var result;
@@ -67,6 +70,7 @@ export default class TestService {
   }
 
   getTest(id) {
+    console.log(id);
     this.connect();
     return this.Model.findById(id, (err, data) => {
       var result;
@@ -75,7 +79,6 @@ export default class TestService {
       } else {
         result = data;
       }
-      // this.close();
       return result;
     });
   }
@@ -94,7 +97,6 @@ export default class TestService {
       } else {
         result = model;
       }
-      // this.close();
       return result;
     });
   }
