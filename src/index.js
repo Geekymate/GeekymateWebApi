@@ -2,7 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import TelegramBot from 'node-telegram-bot-api';
 
-import {testController} from './components';
+import {testController, accountController} from './components';
 
 var app = express();
 app.use(bodyParser.json());
@@ -10,7 +10,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 var port = 9000;
 
 app.use(function(req, res, next) {
-  console.log('Тут был');
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
@@ -40,6 +39,8 @@ app.get('/bot/polling', (req, res) => {
 });
 
 app.use('/api/tests', testController());
+
+app.use('/api/accounts', accountController());
 
 app.listen(port, () => {
   console.log('App listening on port ' + port);
