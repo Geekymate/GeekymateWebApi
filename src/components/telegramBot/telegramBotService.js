@@ -31,11 +31,22 @@ export default class TelegramBotService {
   // }
 
   publish(test) {
-    console.log(this.Chats);
+    var question = test.questions[0];
+    console.log(question);
     let chats = this.Chats;
     for (var i = 0; i < chats.length; i++) {
       let chatid = chats[i];
-      this.Bot.sendMessage(chatid, test.title);
+      var opts = {
+      // reply_to_message_id: msg.message_id,
+      reply_markup: JSON.stringify({
+        keyboard: [
+          [question.answers.answer_one],
+          [question.answers.answer_second],
+          [question.answers.answer_third],
+          [question.answers.answer_fourth]]
+      })
+    };
+      this.Bot.sendMessage(chatid, question.title, opts);
     };
   }
 };
