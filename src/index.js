@@ -35,7 +35,18 @@ app.get('/bot/polling', (req, res) => {
 	  bot.sendMessage(msg.chat.id, JSON.stringify(msg));
 	});
 	bot.on('message', (msg) => {
-	  bot.sendMessage(msg.chat.id, 'Что значит тыкать' + msg.text + '?');
+	  bot.sendMessage(msg.chat.id, 'Что значит ' + msg.text + '?');
+	});
+	bot.onText(/\/start_test/, (msg) => {
+		console.log(msg);
+		var testId = msg.text.split(' ')[1];
+		var TestService = require ('./components/test/testService');
+		// var testItem = TestService.getTest(testId);
+		// TODO: найти тест, добавить отчёт о прохождении теста
+		// отправить первый вопрос
+		console.log(TestService.default;
+		console.log(TestService.getTest);
+		bot.sendMessage(msg.chat.id, testId);
 	});
 });
 
